@@ -1,5 +1,8 @@
 # SafeChain — reference implementation, benchmarks, and live web demo
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20693436.svg)](https://doi.org/10.5281/zenodo.20693436)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 Open artefact accompanying the paper *“SafeChain: A Blockchain-Based System for
 Occupational-Accident Premium Adjustment and Worker-Competency Management in the
 Construction Sector — A Design Science Approach.”*
