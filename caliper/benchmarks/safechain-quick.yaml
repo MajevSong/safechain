@@ -1,0 +1,34 @@
+# Quick pipeline-validation benchmark (short rounds, modest rates).
+test:
+  name: safechain-quick
+  description: SafeChain Fabric pipeline validation
+  workers:
+    number: 2
+  rounds:
+    - label: register-competency-25tps
+      description: RegisterCertificate write @ 25 TPS (competency channel)
+      txDuration: 30
+      rateControl:
+        type: fixed-rate
+        opts:
+          tps: 25
+      workload:
+        module: workload/registerCertificate.js
+    - label: getworker-query-50tps
+      description: GetWorker read-only query @ 50 TPS
+      txDuration: 30
+      rateControl:
+        type: fixed-rate
+        opts:
+          tps: 50
+      workload:
+        module: workload/getWorker.js
+    - label: accident-premium-25tps
+      description: ReportAccident write @ 25 TPS (premium channel)
+      txDuration: 30
+      rateControl:
+        type: fixed-rate
+        opts:
+          tps: 25
+      workload:
+        module: workload/reportAccident.js

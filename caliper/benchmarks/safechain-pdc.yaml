@@ -1,0 +1,16 @@
+# Private Data Collection overhead: public-only register vs register that also
+# writes worker PII to a private collection. Same rate, back-to-back.
+test:
+  name: pdc
+  description: PDC write overhead
+  workers:
+    number: 4
+  rounds:
+    - label: register-public-100tps
+      txDuration: 90
+      rateControl: { type: fixed-rate, opts: { tps: 100 } }
+      workload: { module: workload/registerCertificate.js }
+    - label: register-with-pdc-100tps
+      txDuration: 90
+      rateControl: { type: fixed-rate, opts: { tps: 100 } }
+      workload: { module: workload/registerWithPII.js }

@@ -1,0 +1,15 @@
+# Intra-project MVCC at scale: same project, single key vs 16 shards.
+test:
+  name: shard
+  description: Sharded premium aggregate vs single hot-project key
+  workers:
+    number: 4
+  rounds:
+    - label: hot-project-single-key-100tps
+      txDuration: 90
+      rateControl: { type: fixed-rate, opts: { tps: 100 } }
+      workload: { module: workload/reportAccidentHotProject.js }
+    - label: sharded-64-100tps
+      txDuration: 90
+      rateControl: { type: fixed-rate, opts: { tps: 100 } }
+      workload: { module: workload/reportAccidentSharded.js }

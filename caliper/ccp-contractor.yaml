@@ -1,0 +1,21 @@
+# Connection profile: Contractor org gateway peer (reached from the WSL host).
+name: safechain-contractor
+version: "1.0.0"
+
+client:
+  organization: ContractorMSP
+
+organizations:
+  ContractorMSP:
+    mspid: ContractorMSP
+    peers:
+      - peer0.contractor.safechain.com
+
+peers:
+  peer0.contractor.safechain.com:
+    url: grpcs://localhost:7051
+    tlsCACerts:
+      path: /home/valan/safechain/safechain-net/organizations/peerOrganizations/contractor.safechain.com/tlsca/tlsca.contractor.safechain.com-cert.pem
+    grpcOptions:
+      ssl-target-name-override: peer0.contractor.safechain.com
+      hostnameOverride: peer0.contractor.safechain.com

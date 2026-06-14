@@ -1,0 +1,15 @@
+# MVCC contention ablation: single hot-key premium aggregate vs per-project keys.
+test:
+  name: mvcc
+  description: Premium aggregate key-granularity ablation
+  workers:
+    number: 4
+  rounds:
+    - label: accident-single-key-100tps
+      txDuration: 90
+      rateControl: { type: fixed-rate, opts: { tps: 100 } }
+      workload: { module: workload/reportAccidentSingleKey.js }
+    - label: accident-per-project-100tps
+      txDuration: 90
+      rateControl: { type: fixed-rate, opts: { tps: 100 } }
+      workload: { module: workload/reportAccident.js }

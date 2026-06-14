@@ -1,0 +1,311 @@
+# SafeChain 4-org / single-Raft-orderer network with per-peer CouchDB.
+# Chaincode runs as a service (CCAAS), so peers do NOT mount the docker socket.
+volumes:
+  orderer.safechain.com:
+  orderer2.safechain.com:
+  orderer3.safechain.com:
+  peer0.contractor.safechain.com:
+  peer0.subcontractor.safechain.com:
+  peer0.insurer.safechain.com:
+  peer0.auditor.safechain.com:
+
+networks:
+  safechain:
+    name: safechain_net
+
+services:
+  orderer.safechain.com:
+    container_name: orderer.safechain.com
+    image: hyperledger/fabric-orderer:2.5.10
+    labels: { service: hyperledger-fabric }
+    environment:
+      - FABRIC_LOGGING_SPEC=INFO
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_LISTENPORT=7050
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+      - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_CLUSTER_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+      - ORDERER_GENERAL_BOOTSTRAPMETHOD=none
+      - ORDERER_CHANNELPARTICIPATION_ENABLED=true
+      - ORDERER_ADMIN_TLS_ENABLED=true
+      - ORDERER_ADMIN_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_ADMIN_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_ADMIN_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+      - ORDERER_ADMIN_TLS_CLIENTROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+      - ORDERER_ADMIN_LISTENADDRESS=0.0.0.0:7053
+      - ORDERER_OPERATIONS_LISTENADDRESS=orderer.safechain.com:9443
+      - ORDERER_METRICS_PROVIDER=prometheus
+    working_dir: /root
+    command: orderer
+    volumes:
+      - ./organizations/ordererOrganizations/safechain.com/orderers/orderer.safechain.com/msp:/var/hyperledger/orderer/msp
+      - ./organizations/ordererOrganizations/safechain.com/orderers/orderer.safechain.com/tls/:/var/hyperledger/orderer/tls
+      - orderer.safechain.com:/var/hyperledger/production/orderer
+    ports:
+      - 7050:7050
+      - 7053:7053
+      - 9443:9443
+    networks: [safechain]
+
+  orderer2.safechain.com:
+    container_name: orderer2.safechain.com
+    image: hyperledger/fabric-orderer:2.5.10
+    labels: { service: hyperledger-fabric }
+    environment:
+      - FABRIC_LOGGING_SPEC=INFO
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_LISTENPORT=7050
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+      - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_CLUSTER_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+      - ORDERER_GENERAL_BOOTSTRAPMETHOD=none
+      - ORDERER_CHANNELPARTICIPATION_ENABLED=true
+      - ORDERER_ADMIN_TLS_ENABLED=true
+      - ORDERER_ADMIN_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_ADMIN_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_ADMIN_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+      - ORDERER_ADMIN_TLS_CLIENTROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+      - ORDERER_ADMIN_LISTENADDRESS=0.0.0.0:7053
+      - ORDERER_OPERATIONS_LISTENADDRESS=orderer2.safechain.com:9443
+      - ORDERER_METRICS_PROVIDER=prometheus
+    working_dir: /root
+    command: orderer
+    volumes:
+      - ./organizations/ordererOrganizations/safechain.com/orderers/orderer2.safechain.com/msp:/var/hyperledger/orderer/msp
+      - ./organizations/ordererOrganizations/safechain.com/orderers/orderer2.safechain.com/tls/:/var/hyperledger/orderer/tls
+      - orderer2.safechain.com:/var/hyperledger/production/orderer
+    ports:
+      - 8050:7050
+      - 8053:7053
+    networks: [safechain]
+
+  orderer3.safechain.com:
+    container_name: orderer3.safechain.com
+    image: hyperledger/fabric-orderer:2.5.10
+    labels: { service: hyperledger-fabric }
+    environment:
+      - FABRIC_LOGGING_SPEC=INFO
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_LISTENPORT=7050
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+      - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_CLUSTER_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+      - ORDERER_GENERAL_BOOTSTRAPMETHOD=none
+      - ORDERER_CHANNELPARTICIPATION_ENABLED=true
+      - ORDERER_ADMIN_TLS_ENABLED=true
+      - ORDERER_ADMIN_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_ADMIN_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_ADMIN_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+      - ORDERER_ADMIN_TLS_CLIENTROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+      - ORDERER_ADMIN_LISTENADDRESS=0.0.0.0:7053
+      - ORDERER_OPERATIONS_LISTENADDRESS=orderer3.safechain.com:9443
+      - ORDERER_METRICS_PROVIDER=prometheus
+    working_dir: /root
+    command: orderer
+    volumes:
+      - ./organizations/ordererOrganizations/safechain.com/orderers/orderer3.safechain.com/msp:/var/hyperledger/orderer/msp
+      - ./organizations/ordererOrganizations/safechain.com/orderers/orderer3.safechain.com/tls/:/var/hyperledger/orderer/tls
+      - orderer3.safechain.com:/var/hyperledger/production/orderer
+    ports:
+      - 9050:7050
+      - 9053:7053
+    networks: [safechain]
+
+  couchdb_contractor:
+    container_name: couchdb_contractor
+    image: couchdb:3.4.2
+    environment: { COUCHDB_USER: admin, COUCHDB_PASSWORD: adminpw }
+    ports: ["5984:5984"]
+    networks: [safechain]
+  couchdb_subcontractor:
+    container_name: couchdb_subcontractor
+    image: couchdb:3.4.2
+    environment: { COUCHDB_USER: admin, COUCHDB_PASSWORD: adminpw }
+    ports: ["6984:5984"]
+    networks: [safechain]
+  couchdb_insurer:
+    container_name: couchdb_insurer
+    image: couchdb:3.4.2
+    environment: { COUCHDB_USER: admin, COUCHDB_PASSWORD: adminpw }
+    ports: ["7984:5984"]
+    networks: [safechain]
+  couchdb_auditor:
+    container_name: couchdb_auditor
+    image: couchdb:3.4.2
+    environment: { COUCHDB_USER: admin, COUCHDB_PASSWORD: adminpw }
+    ports: ["8984:5984"]
+    networks: [safechain]
+
+  peer0.contractor.safechain.com:
+    container_name: peer0.contractor.safechain.com
+    image: hyperledger/fabric-peer:2.5.10
+    labels: { service: hyperledger-fabric }
+    environment:
+      - FABRIC_CFG_PATH=/etc/hyperledger/peercfg
+      - FABRIC_LOGGING_SPEC=INFO
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_PROFILE_ENABLED=false
+      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
+      - CORE_PEER_ID=peer0.contractor.safechain.com
+      - CORE_PEER_ADDRESS=peer0.contractor.safechain.com:7051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:7051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.contractor.safechain.com:7052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.contractor.safechain.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.contractor.safechain.com:7051
+      - CORE_PEER_LOCALMSPID=ContractorMSP
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
+      - CORE_OPERATIONS_LISTENADDRESS=peer0.contractor.safechain.com:9444
+      - CORE_METRICS_PROVIDER=prometheus
+      - CHAINCODE_AS_A_SERVICE_BUILDER_CONFIG={"peername":"peer0contractor"}
+      - CORE_CHAINCODE_EXECUTETIMEOUT=300s
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb_contractor:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=adminpw
+    volumes:
+      - ./organizations/peerOrganizations/contractor.safechain.com/peers/peer0.contractor.safechain.com:/etc/hyperledger/fabric
+      - ./peercfg:/etc/hyperledger/peercfg
+      - peer0.contractor.safechain.com:/var/hyperledger/production
+    working_dir: /root
+    command: peer node start
+    ports: ["7051:7051", "9444:9444"]
+    depends_on: [couchdb_contractor]
+    networks: [safechain]
+
+  peer0.subcontractor.safechain.com:
+    container_name: peer0.subcontractor.safechain.com
+    image: hyperledger/fabric-peer:2.5.10
+    labels: { service: hyperledger-fabric }
+    environment:
+      - FABRIC_CFG_PATH=/etc/hyperledger/peercfg
+      - FABRIC_LOGGING_SPEC=INFO
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_PROFILE_ENABLED=false
+      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
+      - CORE_PEER_ID=peer0.subcontractor.safechain.com
+      - CORE_PEER_ADDRESS=peer0.subcontractor.safechain.com:8051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:8051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.subcontractor.safechain.com:8052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:8052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.subcontractor.safechain.com:8051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.subcontractor.safechain.com:8051
+      - CORE_PEER_LOCALMSPID=SubcontractorMSP
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
+      - CORE_OPERATIONS_LISTENADDRESS=peer0.subcontractor.safechain.com:9445
+      - CORE_METRICS_PROVIDER=prometheus
+      - CHAINCODE_AS_A_SERVICE_BUILDER_CONFIG={"peername":"peer0subcontractor"}
+      - CORE_CHAINCODE_EXECUTETIMEOUT=300s
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb_subcontractor:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=adminpw
+    volumes:
+      - ./organizations/peerOrganizations/subcontractor.safechain.com/peers/peer0.subcontractor.safechain.com:/etc/hyperledger/fabric
+      - ./peercfg:/etc/hyperledger/peercfg
+      - peer0.subcontractor.safechain.com:/var/hyperledger/production
+    working_dir: /root
+    command: peer node start
+    ports: ["8051:8051", "9445:9445"]
+    depends_on: [couchdb_subcontractor]
+    networks: [safechain]
+
+  peer0.insurer.safechain.com:
+    container_name: peer0.insurer.safechain.com
+    image: hyperledger/fabric-peer:2.5.10
+    labels: { service: hyperledger-fabric }
+    environment:
+      - FABRIC_CFG_PATH=/etc/hyperledger/peercfg
+      - FABRIC_LOGGING_SPEC=INFO
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_PROFILE_ENABLED=false
+      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
+      - CORE_PEER_ID=peer0.insurer.safechain.com
+      - CORE_PEER_ADDRESS=peer0.insurer.safechain.com:9051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:9051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.insurer.safechain.com:9052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:9052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.insurer.safechain.com:9051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.insurer.safechain.com:9051
+      - CORE_PEER_LOCALMSPID=InsurerMSP
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
+      - CORE_OPERATIONS_LISTENADDRESS=peer0.insurer.safechain.com:9446
+      - CORE_METRICS_PROVIDER=prometheus
+      - CHAINCODE_AS_A_SERVICE_BUILDER_CONFIG={"peername":"peer0insurer"}
+      - CORE_CHAINCODE_EXECUTETIMEOUT=300s
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb_insurer:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=adminpw
+    volumes:
+      - ./organizations/peerOrganizations/insurer.safechain.com/peers/peer0.insurer.safechain.com:/etc/hyperledger/fabric
+      - ./peercfg:/etc/hyperledger/peercfg
+      - peer0.insurer.safechain.com:/var/hyperledger/production
+    working_dir: /root
+    command: peer node start
+    ports: ["9051:9051", "9446:9446"]
+    depends_on: [couchdb_insurer]
+    networks: [safechain]
+
+  peer0.auditor.safechain.com:
+    container_name: peer0.auditor.safechain.com
+    image: hyperledger/fabric-peer:2.5.10
+    labels: { service: hyperledger-fabric }
+    environment:
+      - FABRIC_CFG_PATH=/etc/hyperledger/peercfg
+      - FABRIC_LOGGING_SPEC=INFO
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_PROFILE_ENABLED=false
+      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
+      - CORE_PEER_ID=peer0.auditor.safechain.com
+      - CORE_PEER_ADDRESS=peer0.auditor.safechain.com:10051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:10051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.auditor.safechain.com:10052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:10052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.auditor.safechain.com:10051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.auditor.safechain.com:10051
+      - CORE_PEER_LOCALMSPID=AuditorMSP
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
+      - CORE_OPERATIONS_LISTENADDRESS=peer0.auditor.safechain.com:9447
+      - CORE_METRICS_PROVIDER=prometheus
+      - CHAINCODE_AS_A_SERVICE_BUILDER_CONFIG={"peername":"peer0auditor"}
+      - CORE_CHAINCODE_EXECUTETIMEOUT=300s
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb_auditor:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=adminpw
+    volumes:
+      - ./organizations/peerOrganizations/auditor.safechain.com/peers/peer0.auditor.safechain.com:/etc/hyperledger/fabric
+      - ./peercfg:/etc/hyperledger/peercfg
+      - peer0.auditor.safechain.com:/var/hyperledger/production
+    working_dir: /root
+    command: peer node start
+    ports: ["10051:10051", "9447:9447"]
+    depends_on: [couchdb_auditor]
+    networks: [safechain]

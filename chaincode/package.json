@@ -1,0 +1,26 @@
+{
+  "name": "safechain-chaincode",
+  "version": "1.0.0",
+  "description": "SafeChain chaincode: competency, accident-premium and responsibility contracts",
+  "main": "index.js",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "fabric-chaincode-node start",
+    "start:server": "fabric-chaincode-node server --chaincode-address=$CHAINCODE_SERVER_ADDRESS --chaincode-id=$CHAINCODE_ID",
+    "test": "mocha test --recursive",
+    "coverage": "c8 --reporter=text-summary --reporter=text --include=lib/** mocha test --recursive",
+    "lint": "echo \"no linter configured\""
+  },
+  "dependencies": {
+    "fabric-contract-api": "^2.5.4",
+    "fabric-shim": "^2.5.4"
+  },
+  "devDependencies": {
+    "c8": "^9.1.0",
+    "chai": "^4.4.1",
+    "mocha": "^10.4.0",
+    "sinon": "^17.0.1"
+  }
+}

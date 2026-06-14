@@ -1,0 +1,55 @@
+# Full benchmark matching the paper's evaluation design: 100 / 500 / 1000 TPS
+# send-rate rounds, 300 s each, after a warm-up round. Covers write (both
+# channels) and read transactions. NOTE: this runs ~40+ minutes.
+test:
+  name: safechain-full
+  description: SafeChain Hyperledger Fabric performance evaluation
+  workers:
+    number: 8
+  rounds:
+    # --- warm-up (not representative; lets caches/containers settle) ---
+    - label: warmup
+      description: Warm-up RegisterCertificate @ 50 TPS
+      txDuration: 60
+      rateControl:
+        type: fixed-rate
+        opts: { tps: 50 }
+      workload: { module: workload/registerCertificate.js }
+
+    # --- RegisterCertificate (competency, write) ---
+    - label: register-100tps
+      txDuration: 300
+      rateControl: { type: fixed-rate, opts: { tps: 100 } }
+      workload: { module: workload/registerCertificate.js }
+    - label: register-500tps
+      txDuration: 300
+      rateControl: { type: fixed-rate, opts: { tps: 500 } }
+      workload: { module: workload/registerCertificate.js }
+    - label: register-1000tps
+      txDuration: 300
+      rateControl: { type: fixed-rate, opts: { tps: 1000 } }
+      workload: { module: workload/registerCertificate.js }
+
+    # --- GetWorker (competency, read-only query) ---
+    - label: query-100tps
+      txDuration: 300
+      rateControl: { type: fixed-rate, opts: { tps: 100 } }
+      workload: { module: workload/getWorker.js }
+    - label: query-500tps
+      txDuration: 300
+      rateControl: { type: fixed-rate, opts: { tps: 500 } }
+      workload: { module: workload/getWorker.js }
+    - label: query-1000tps
+      txDuration: 300
+      rateControl: { type: fixed-rate, opts: { tps: 1000 } }
+      workload: { module: workload/getWorker.js }
+
+    # --- ReportAccident (premium, write) ---
+    - label: accident-100tps
+      txDuration: 300
+      rateControl: { type: fixed-rate, opts: { tps: 100 } }
+      workload: { module: workload/reportAccident.js }
+    - label: accident-500tps
+      txDuration: 300
+      rateControl: { type: fixed-rate, opts: { tps: 500 } }
+      workload: { module: workload/reportAccident.js }

@@ -1,0 +1,238 @@
+---
+################################################################################
+#   Organizations
+################################################################################
+Organizations:
+  - &OrdererOrg
+    Name: OrdererOrg
+    ID: OrdererMSP
+    MSPDir: organizations/ordererOrganizations/safechain.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('OrdererMSP.member')"
+      Writers:
+        Type: Signature
+        Rule: "OR('OrdererMSP.member')"
+      Admins:
+        Type: Signature
+        Rule: "OR('OrdererMSP.admin')"
+    OrdererEndpoints:
+      - orderer.safechain.com:7050
+      - orderer2.safechain.com:7050
+      - orderer3.safechain.com:7050
+
+  - &Contractor
+    Name: ContractorMSP
+    ID: ContractorMSP
+    MSPDir: organizations/peerOrganizations/contractor.safechain.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('ContractorMSP.admin', 'ContractorMSP.peer', 'ContractorMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('ContractorMSP.admin', 'ContractorMSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('ContractorMSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('ContractorMSP.peer')"
+    AnchorPeers:
+      - Host: peer0.contractor.safechain.com
+        Port: 7051
+
+  - &Subcontractor
+    Name: SubcontractorMSP
+    ID: SubcontractorMSP
+    MSPDir: organizations/peerOrganizations/subcontractor.safechain.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('SubcontractorMSP.admin', 'SubcontractorMSP.peer', 'SubcontractorMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('SubcontractorMSP.admin', 'SubcontractorMSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('SubcontractorMSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('SubcontractorMSP.peer')"
+    AnchorPeers:
+      - Host: peer0.subcontractor.safechain.com
+        Port: 8051
+
+  - &Insurer
+    Name: InsurerMSP
+    ID: InsurerMSP
+    MSPDir: organizations/peerOrganizations/insurer.safechain.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('InsurerMSP.admin', 'InsurerMSP.peer', 'InsurerMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('InsurerMSP.admin', 'InsurerMSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('InsurerMSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('InsurerMSP.peer')"
+    AnchorPeers:
+      - Host: peer0.insurer.safechain.com
+        Port: 9051
+
+  - &Auditor
+    Name: AuditorMSP
+    ID: AuditorMSP
+    MSPDir: organizations/peerOrganizations/auditor.safechain.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('AuditorMSP.admin', 'AuditorMSP.peer', 'AuditorMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('AuditorMSP.admin', 'AuditorMSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('AuditorMSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('AuditorMSP.peer')"
+    AnchorPeers:
+      - Host: peer0.auditor.safechain.com
+        Port: 10051
+
+################################################################################
+#   Capabilities
+################################################################################
+Capabilities:
+  Channel: &ChannelCapabilities
+    V2_0: true
+  Orderer: &OrdererCapabilities
+    V2_0: true
+  Application: &ApplicationCapabilities
+    V2_5: true
+
+################################################################################
+#   Application
+################################################################################
+Application: &ApplicationDefaults
+  Organizations:
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+    LifecycleEndorsement:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Endorsement"
+    Endorsement:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Endorsement"
+  Capabilities:
+    <<: *ApplicationCapabilities
+
+################################################################################
+#   Orderer
+################################################################################
+Orderer: &OrdererDefaults
+  OrdererType: etcdraft
+  Addresses:
+    - orderer.safechain.com:7050
+    - orderer2.safechain.com:7050
+    - orderer3.safechain.com:7050
+  EtcdRaft:
+    Consenters:
+      - Host: orderer.safechain.com
+        Port: 7050
+        ClientTLSCert: organizations/ordererOrganizations/safechain.com/orderers/orderer.safechain.com/tls/server.crt
+        ServerTLSCert: organizations/ordererOrganizations/safechain.com/orderers/orderer.safechain.com/tls/server.crt
+      - Host: orderer2.safechain.com
+        Port: 7050
+        ClientTLSCert: organizations/ordererOrganizations/safechain.com/orderers/orderer2.safechain.com/tls/server.crt
+        ServerTLSCert: organizations/ordererOrganizations/safechain.com/orderers/orderer2.safechain.com/tls/server.crt
+      - Host: orderer3.safechain.com
+        Port: 7050
+        ClientTLSCert: organizations/ordererOrganizations/safechain.com/orderers/orderer3.safechain.com/tls/server.crt
+        ServerTLSCert: organizations/ordererOrganizations/safechain.com/orderers/orderer3.safechain.com/tls/server.crt
+  BatchTimeout: 2s
+  BatchSize:
+    MaxMessageCount: 10
+    AbsoluteMaxBytes: 99 MB
+    PreferredMaxBytes: 512 KB
+  Organizations:
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+    BlockValidation:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+
+################################################################################
+#   Channel
+################################################################################
+Channel: &ChannelDefaults
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+  Capabilities:
+    <<: *ChannelCapabilities
+
+################################################################################
+#   Profiles
+################################################################################
+Profiles:
+  # Competency channel: all four organisations participate.
+  SafeChainCompetency:
+    <<: *ChannelDefaults
+    Orderer:
+      <<: *OrdererDefaults
+      Organizations:
+        - *OrdererOrg
+      Capabilities: *OrdererCapabilities
+    Application:
+      <<: *ApplicationDefaults
+      Organizations:
+        - *Contractor
+        - *Subcontractor
+        - *Insurer
+        - *Auditor
+      Capabilities: *ApplicationCapabilities
+
+  # Premium/accident channel: only Contractor + Insurer (per design).
+  SafeChainPremium:
+    <<: *ChannelDefaults
+    Orderer:
+      <<: *OrdererDefaults
+      Organizations:
+        - *OrdererOrg
+      Capabilities: *OrdererCapabilities
+    Application:
+      <<: *ApplicationDefaults
+      Organizations:
+        - *Contractor
+        - *Insurer
+      Capabilities: *ApplicationCapabilities

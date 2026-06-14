@@ -1,0 +1,55 @@
+# SafeChain 4-organisation topology (DSRM artefact).
+# Orgs map 1:1 to SafeChain roles: Contractor (Ana Yuklenici), Subcontractor
+# (Taseron), Insurer (Sigorta Sirketi), Auditor (Kamu Denetcisi). One Raft orderer.
+OrdererOrgs:
+  - Name: Orderer
+    Domain: safechain.com
+    EnableNodeOUs: true
+    Specs:
+      - Hostname: orderer
+        SANS:
+          - localhost
+      - Hostname: orderer2
+        SANS:
+          - localhost
+      - Hostname: orderer3
+        SANS:
+          - localhost
+
+PeerOrgs:
+  - Name: Contractor
+    Domain: contractor.safechain.com
+    EnableNodeOUs: true
+    Template:
+      Count: 1
+      SANS:
+        - localhost
+    Users:
+      Count: 1
+  - Name: Subcontractor
+    Domain: subcontractor.safechain.com
+    EnableNodeOUs: true
+    Template:
+      Count: 1
+      SANS:
+        - localhost
+    Users:
+      Count: 1
+  - Name: Insurer
+    Domain: insurer.safechain.com
+    EnableNodeOUs: true
+    Template:
+      Count: 1
+      SANS:
+        - localhost
+    Users:
+      Count: 1
+  - Name: Auditor
+    Domain: auditor.safechain.com
+    EnableNodeOUs: true
+    Template:
+      Count: 1
+      SANS:
+        - localhost
+    Users:
+      Count: 1

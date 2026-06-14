@@ -1,0 +1,59 @@
+# Publication-grade benchmark: maps the throughput/latency curve up to the
+# single-host saturation point without driving the client into total collapse.
+# Rates chosen around the proposal's 100/500/1000 reference points. 120 s rounds.
+test:
+  name: safechain-clean
+  description: SafeChain Fabric performance (refined methodology)
+  workers:
+    number: 4
+  rounds:
+    - label: warmup
+      txDuration: 45
+      rateControl: { type: fixed-rate, opts: { tps: 25 } }
+      workload: { module: workload/registerCertificate.js }
+
+    # RegisterCertificate (competency channel, 4-org MAJORITY endorsement, write)
+    - label: register-50tps
+      txDuration: 120
+      rateControl: { type: fixed-rate, opts: { tps: 50 } }
+      workload: { module: workload/registerCertificate.js }
+    - label: register-100tps
+      txDuration: 120
+      rateControl: { type: fixed-rate, opts: { tps: 100 } }
+      workload: { module: workload/registerCertificate.js }
+    - label: register-200tps
+      txDuration: 120
+      rateControl: { type: fixed-rate, opts: { tps: 200 } }
+      workload: { module: workload/registerCertificate.js }
+    - label: register-400tps
+      txDuration: 120
+      rateControl: { type: fixed-rate, opts: { tps: 400 } }
+      workload: { module: workload/registerCertificate.js }
+
+    # GetWorker (competency channel, read-only query)
+    - label: query-100tps
+      txDuration: 120
+      rateControl: { type: fixed-rate, opts: { tps: 100 } }
+      workload: { module: workload/getWorker.js }
+    - label: query-500tps
+      txDuration: 120
+      rateControl: { type: fixed-rate, opts: { tps: 500 } }
+      workload: { module: workload/getWorker.js }
+    - label: query-1000tps
+      txDuration: 120
+      rateControl: { type: fixed-rate, opts: { tps: 1000 } }
+      workload: { module: workload/getWorker.js }
+
+    # ReportAccident (premium channel, 2-org endorsement, write)
+    - label: accident-50tps
+      txDuration: 120
+      rateControl: { type: fixed-rate, opts: { tps: 50 } }
+      workload: { module: workload/reportAccident.js }
+    - label: accident-100tps
+      txDuration: 120
+      rateControl: { type: fixed-rate, opts: { tps: 100 } }
+      workload: { module: workload/reportAccident.js }
+    - label: accident-200tps
+      txDuration: 120
+      rateControl: { type: fixed-rate, opts: { tps: 200 } }
+      workload: { module: workload/reportAccident.js }

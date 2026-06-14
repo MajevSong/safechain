@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SafeChain Simülasyon Prototipi</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">DSRM Artefakt Demonstrasyonu</p>
+        <h1>SafeChain</h1>
+      </div>
+      <div class="role-panel">
+        <label for="roleSelect">Aktif rol</label>
+        <select id="roleSelect">
+          <option value="contractor">Ana Yüklenici</option>
+          <option value="subcontractor">Taşeron</option>
+          <option value="insurer">Sigorta Şirketi</option>
+          <option value="auditor">Kamu Denetçisi</option>
+          <option value="worker">İşçi</option>
+        </select>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Blockchain Tabanlı İSG İzlenebilirliği</p>
+          <h2>Kaza primlendirmesi, işçi yetkinliği ve taşeron sorumluluğu tek defterde.</h2>
+          <p>
+            Bu arayüz <strong>gerçek 4 organizasyonlu Hyperledger Fabric ağına</strong> (Fabric Gateway
+            üzerinden) bağlıdır — tarayıcı simülasyonu değildir. İşlemler canlı zincire yazılır; rol
+            seçici gerçek ABAC'ı çalıştırır.
+          </p>
+        </div>
+        <div class="metrics" aria-label="Performans metrikleri">
+          <div>
+            <span id="metricThroughput">0</span>
+            <small>Son işlem TPS (gerçek)</small>
+          </div>
+          <div>
+            <span id="metricLatency">0 ms</span>
+            <small>Son işlem gecikmesi</small>
+          </div>
+          <div>
+            <span id="metricSuccess">100%</span>
+            <small>Başarı oranı (gerçek)</small>
+          </div>
+        </div>
+      </section>
+
+      <section class="tabs" aria-label="SafeChain modülleri">
+        <button class="tab active" data-tab="dashboard">Panel</button>
+        <button class="tab" data-tab="workers">Yetkinlik</button>
+        <button class="tab" data-tab="accidents">Kaza ve Prim</button>
+        <button class="tab" data-tab="contracts">Sözleşme Zinciri</button>
+        <button class="tab" data-tab="ledger">Blockchain Defteri</button>
+      </section>
+
+      <section id="dashboard" class="view active">
+        <div class="grid three">
+          <article class="card">
+            <h3>Yetkinlik Uyumu</h3>
+            <strong id="complianceScore">0%</strong>
+            <p>Geçerli sertifikaya sahip işçilerin toplam işçilere oranı.</p>
+          </article>
+          <article class="card">
+            <h3>Prim Katsayısı</h3>
+            <strong id="premiumFactor">1.00</strong>
+            <p>Kaza sıklığı, ağırlık ve taşeron siciline göre güncellenir.</p>
+          </article>
+          <article class="card">
+            <h3>Denetim İzi</h3>
+            <strong id="ledgerCount">0</strong>
+            <p>On-chain meta veri, SHA-256 hash ve zaman damgası kayıtları.</p>
+          </article>
+        </div>
+
+        <div class="grid two">
+          <article class="panel">
+            <div class="panel-head">
+              <h3>Demonstrasyon Senaryoları</h3>
+              <span>DSRM Aşama 4</span>
+            </div>
+            <div class="scenario-list">
+              <button data-scenario="certificate">A: Sertifika geçerlilik kontrolü</button>
+              <button data-scenario="accident">B: Kaza kaydı ve prim tetiklemesi</button>
+              <button data-scenario="responsibility">C: Çok taşeronlu sorumluluk tespiti</button>
+            </div>
+          </article>
+          <article class="panel">
+            <div class="panel-head">
+              <h3>Son Akıllı Sözleşme Yanıtı</h3>
+              <span id="contractStatus">Hazır</span>
+            </div>
+            <pre id="contractOutput"></pre>
+          </article>
+        </div>
+      </section>
+
+      <section id="workers" class="view">
+        <div class="grid two">
+          <form id="workerForm" class="panel">
+            <div class="panel-head">
+              <h3>İşçi ve Sertifika Kaydı</h3>
+              <span>On-chain hash, off-chain belge</span>
+            </div>
+            <label>İşçi adı <input name="name" required value="Ali Kaya" /></label>
+            <label>Taşeron <input name="subcontractor" required value="Beta Kalıp" /></label>
+            <label>Sertifika türü
+              <select name="certificateType">
+                <option>Yüksekte Çalışma</option>
+                <option>İskele Kurulumu</option>
+                <option>Elektrik Güvenliği</option>
+                <option>Kaynak Operatörlüğü</option>
+              </select>
+            </label>
+            <label>Geçerlilik tarihi <input name="validUntil" type="date" required /></label>
+            <label>Belge özeti <textarea name="document" rows="4">Eğitim kurumu onaylı sertifika ve saha eğitim kaydı.</textarea></label>
+            <button class="primary" type="submit">Sertifikayı zincire yaz</button>
+          </form>
+          <article class="panel">
+            <div class="panel-head">
+              <h3>Sertifika Doğrulama</h3>
+              <span>ABAC kontrollü</span>
+            </div>
+            <div id="workerList" class="list"></div>
+          </article>
+        </div>
+      </section>
+
+      <section id="accidents" class="view">
+        <div class="grid two">
+          <form id="accidentForm" class="panel">
+            <div class="panel-head">
+              <h3>Kaza Bildirimi</h3>
+              <span>Prim tetikleyici işlem</span>
+            </div>
+            <label>İlgili işçi <select name="workerId" id="accidentWorker"></select></label>
+            <label>Sorumlu taşeron <input name="subcontractor" required value="Beta Kalıp" /></label>
+            <label>Olay sınıfı
+              <select name="severity">
+                <option value="low">Düşük</option>
+                <option value="medium" selected>Orta</option>
+                <option value="high">Yüksek</option>
+                <option value="fatal">Ölümcül</option>
+              </select>
+            </label>
+            <label>Kaza raporu <textarea name="report" rows="5">Kalıp söküm alanında düşme riski içeren orta ağırlıklı olay bildirimi.</textarea></label>
+            <button class="primary" type="submit">Kazayı kaydet ve primi güncelle</button>
+          </form>
+          <article class="panel">
+            <div class="panel-head">
+              <h3>Prim Hesabı</h3>
+              <span>DI1 ölçülebilir primlendirme</span>
+            </div>
+            <div id="premiumBreakdown" class="breakdown"></div>
+          </article>
+        </div>
+      </section>
+
+      <section id="contracts" class="view">
+        <div class="grid two">
+          <form id="assignmentForm" class="panel">
+            <div class="panel-head">
+              <h3>Görev Ataması</h3>
+              <span>Yetkinlik zorunluluğu</span>
+            </div>
+            <label>İşçi <select name="workerId" id="assignmentWorker"></select></label>
+            <label>Görev
+              <select name="task">
+                <option value="Yüksekte Çalışma">Yüksekte Çalışma</option>
+                <option value="İskele Kurulumu">İskele Kurulumu</option>
+                <option value="Elektrik Güvenliği">Elektrik Güvenliği</option>
+              </select>
+            </label>
+            <label>Sözleşme hattı
+              <select name="contract">
+                <option>Alfa İnşaat > Beta Kalıp > Gamma İskele</option>
+                <option>Alfa İnşaat > Delta Elektrik</option>
+                <option>Alfa İnşaat > Sigma Mekanik</option>
+              </select>
+            </label>
+            <button class="primary" type="submit">Akıllı sözleşmeyle doğrula</button>
+          </form>
+          <article class="panel">
+            <div class="panel-head">
+              <h3>Sorumluluk Zinciri</h3>
+              <span>DI3 şeffaf sorumluluk</span>
+            </div>
+            <div id="responsibilityChain" class="chain"></div>
+          </article>
+        </div>
+      </section>
+
+      <section id="ledger" class="view">
+        <article class="panel">
+          <div class="panel-head">
+            <h3>On-chain Defter</h3>
+            <span>Hash, zaman damgası, önceki blok</span>
+          </div>
+          <div id="ledgerList" class="ledger"></div>
+        </article>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

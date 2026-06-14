@@ -1,0 +1,12 @@
+{
+  "name": "safechain-webapp",
+  "version": "1.0.0",
+  "description": "Web UI driving the REAL SafeChain Hyperledger Fabric network via the Fabric Gateway",
+  "main": "server.js",
+  "scripts": { "start": "node server.js" },
+  "dependencies": {
+    "@grpc/grpc-js": "^1.10.6",
+    "@hyperledger/fabric-gateway": "^1.5.0",
+    "express": "^4.19.2"
+  }
+}

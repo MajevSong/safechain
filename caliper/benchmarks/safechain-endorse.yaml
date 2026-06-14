@@ -1,0 +1,13 @@
+# Single register round for the endorsement-policy ablation (re-run per policy).
+test:
+  name: endorse
+  description: RegisterCertificate under a fixed endorsement policy
+  workers:
+    number: 4
+  rounds:
+    - label: register-100tps
+      txDuration: 90
+      rateControl:
+        type: fixed-rate
+        opts: { tps: 100 }
+      workload: { module: workload/registerCertificate.js }

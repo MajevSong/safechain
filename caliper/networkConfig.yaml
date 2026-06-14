@@ -1,0 +1,32 @@
+# Caliper network configuration for the SafeChain 4-org network (Fabric Gateway).
+# Caliper connects to the Contractor peer's gateway on localhost:7051; the peer
+# gateway service orchestrates cross-org endorsement internally (anchor peers
+# enable the gossip-based discovery needed for the MAJORITY endorsement policy).
+name: SafeChain-Benchmark
+version: "2.0.0"
+
+caliper:
+  blockchain: fabric
+
+channels:
+  - channelName: competency
+    contracts:
+      - id: safechain
+        contractID: safechainCompetency
+  - channelName: premium
+    contracts:
+      - id: safechain
+        contractID: safechainPremium
+
+organizations:
+  - mspid: ContractorMSP
+    identities:
+      certificates:
+        - name: 'User1'
+          clientPrivateKey:
+            path: '/home/valan/safechain/safechain-net/organizations/peerOrganizations/contractor.safechain.com/users/User1@contractor.safechain.com/msp/keystore/priv_sk'
+          clientSignedCert:
+            path: '/home/valan/safechain/safechain-net/organizations/peerOrganizations/contractor.safechain.com/users/User1@contractor.safechain.com/msp/signcerts/User1@contractor.safechain.com-cert.pem'
+    connectionProfile:
+      path: '/home/valan/safechain/caliper/ccp-contractor.yaml'
+      discover: true
