@@ -8,7 +8,7 @@ Occupational health and safety (OHS) management in construction remains fragment
 
 ## 1. Introduction
 
-In Türkiye, the construction sector is critical for both employment and economic output, yet it remains one of the most hazardous, consistently ranking among the top three sectors for fatal occupational accidents, with accident rates markedly above the EU average (Lal et al., 2025). A substantial portion of current OHS practice depends on paper-based or fragmented digital systems; accident records and worker-competency data are managed in centralised, siloed databases (Sadeghi et al., 2026). This structure creates serious problems for data integrity, transparency, and trust among stakeholders.
+In Türkiye, the construction sector is critical for both employment and economic output, yet it remains one of the most hazardous, consistently ranking among the sectors with the highest numbers of fatal occupational accidents in the national statistics (SGK, 2024). A substantial portion of current OHS practice depends on paper-based or fragmented digital systems; accident records and worker-competency data are managed in centralised, siloed databases (Sadeghi et al., 2026). This structure creates serious problems for data integrity, transparency, and trust among stakeholders.
 
 Blockchain and smart contracts have been increasingly investigated to provide transparency, traceability, and automation in construction and related sectors (Assaf et al., 2025; Bucher et al., 2024). Work on supply-chain traceability, cash-flow management, and smart-contract-based payment mechanisms shows that distributed ledger technology offers a strong foundation for trust and accountability (Zeng et al., 2025; Rana & Islam, 2025). However, studies that treat occupational-accident premium adjustment, OHS compliance, and worker-competency certification in a single, integrated architecture remain very limited (Lal et al., 2025).
 
@@ -21,7 +21,7 @@ Accident-notification processes in construction projects are fragmented and larg
 The literature and field practice indicate three structural problems with current centralised systems:
 
 - **Data integrity and manipulation risk:** storing accident records on central servers increases the risk of later modification or deletion, weakening both evidentiary value in disputes and the traceability of safety performance (Lal et al., 2025; Torres-Polo & Guzman Ortiz, 2026).
-- **Responsibility ambiguity in subcontracting chains:** in prefabricated and modular supply chains, many subcontractors operate together, yet which actor holds which obligation (training, PPE, site inspection, premium payment) for which worker cannot be transparently traced (Zeng et al., 2025; Dey & Mishra, 2025).
+- **Responsibility ambiguity in subcontracting chains:** in prefabricated and modular supply chains, many subcontractors operate together, yet which actor holds which obligation (training, PPE, site inspection, premium payment) for which worker cannot be transparently traced (Zeng et al., 2025; Heydari & Shojaei, 2025).
 - **Difficulty of competency and certificate verification:** certificates held across disparate institutional or public systems hinder on-site, real-time verification; the use of forged or expired documents poses serious risk (Jeong et al., 2025; Kim et al., 2025).
 
 Although blockchain-based designs have strengthened supply-chain transparency and payment processes (Assaf et al., 2025; Zhou et al., 2024), no integrated solution yet dynamically links occupational-accident premiums to OHS performance while managing worker-competency records on an immutable ledger (Lal et al., 2025). Table 1 positions related work against SafeChain's integrated contribution.
@@ -51,7 +51,7 @@ The overall aim is to design, within DSRM, a blockchain-based artefact (SafeChai
 Design Science Research focuses on the design and evaluation of artefacts that solve real-world problems in information systems and related fields (Johannesson & Perjons, 2021). Peffers et al. (2007) structure this as a six-stage process: problem identification, objective definition, design and development, demonstration, evaluation, and communication. Venable et al. (2016) provide the FEDS framework for selecting evaluation strategies. DSRM is widely used for artefact development in information systems, engineering, and construction informatics owing to its structured, iterative nature and its balance of practical utility and scientific rigour (De Sordi et al., 2020; Lai et al., 2025). This study adopts the Peffers et al. (2007) model.
 
 ### 4.2 Blockchain and Smart Contracts in Construction
-Recent systematic reviews show blockchain is intensively researched for supply chains, data governance, and trust problems in large-scale industries (Abbas & Myeong, 2024; Xiong et al., 2025). In construction, blockchain-based coordination systems in prefabricated supply chains improve traceability, automation, and stakeholder collaboration (Zhou et al., 2024; Zeng et al., 2025). Blockchain-based cash-flow management systems offer significant advantages for automating financial transactions and storing records immutably (Assaf et al., 2025). Together with digital twins, BIM, IoT, and AI, blockchain can provide a decentralised backbone for secure data sharing in construction (Bucher et al., 2024; Lai et al., 2025).
+Recent systematic reviews show blockchain is intensively researched for supply chains, data governance, and trust problems in large-scale industries (Abbas & Myeong, 2024; Ibrahimy et al., 2024). In construction, blockchain-based coordination systems in prefabricated supply chains improve traceability, automation, and stakeholder collaboration (Zhou et al., 2024; Zeng et al., 2025). Blockchain-based cash-flow management systems offer significant advantages for automating financial transactions and storing records immutably (Assaf et al., 2025). Together with digital twins, BIM, IoT, and AI, blockchain can provide a decentralised backbone for secure data sharing in construction (Bucher et al., 2024; Lai et al., 2025).
 
 ### 4.3 Safety, Worker-Competency Management, and Blockchain
 IoT, AI, and computer-vision solutions have advanced worker safety and risk management in construction (Mai et al., 2024; Perera et al., 2025), but most rely on centralised data infrastructures (Sadeghi et al., 2026; Tian et al., 2025), creating vulnerabilities in integrity, access control, and trust. Lal et al. (2025), in a comprehensive review of blockchain for construction safety compliance, identify three core mechanisms — immutable time-stamped safety records, real-time hazard monitoring with IoT, and compliance verification with incentive distribution via smart contracts — while noting that the oracle problem, scalability, and legal recognition remain critical obstacles. Jeong et al. (2025) developed an Ethereum/IPFS-based certificate-management system that significantly reduced verification time, and Kim et al. (2025) tested blockchain-enabled worker certification near a real site setting. Existing work, however, does not integrate the competency dimension with the premium mechanism — the gap SafeChain addresses.
@@ -279,7 +279,7 @@ World Wide Web Consortium (W3C). (2022). *Decentralized identifiers (DIDs) v1.0.
 
 World Wide Web Consortium (W3C). (2025). *Verifiable credentials data model.* W3C Recommendation. https://www.w3.org/TR/vc-data-model-2.0/
 
-Dey, A., & Mishra, D. (2025). Subcontractor responsibility chain transparency in modular construction: A blockchain-based approach. *Automation in Construction, 169*, 105852. https://doi.org/10.1016/j.autcon.2025.105852
+Heydari, M., & Shojaei, A. (2025). Blockchain applications in the construction supply chain. *Automation in Construction, 171*, 105998. https://doi.org/10.1016/j.autcon.2025.105998
 
 Gregor, S., & Jones, D. (2007). The anatomy of a design theory. *Journal of the Association for Information Systems, 8*(5), 312–335.
 
@@ -305,7 +305,7 @@ Peffers, K., Tuunanen, T., Rothenberger, M. A., & Chatterjee, S. (2007). A desig
 
 Perera, P., Perera, S., Jin, X., Rashidi, M., Nanayakkara, S., Yazbek, G., & Yazbek, A. (2025). Deep learning-enabled visual computing in construction: Application and digital technology integration. *Frontiers in Built Environment, 11*, 1655847. https://doi.org/10.3389/fbuil.2025.1655847
 
-Rana, M. M., & Islam, S. M. R. (2025). A secured supply chain management system using blockchain technology. *IET Communications, 19*(1), 1–15.
+Rana, M. M., & Islam, S. M. R. (2025). A secured supply chain management system using blockchain technology. *IET Communications, 19*(1), 1–15. https://doi.org/10.1049/cmu2.70046
 
 Sadeghi, J., Ahmadi, A., & Phipps, R. (2026). Internet of Things in construction: Trends and adoption insights from a scientometric perspective. *International Journal of Construction Management, 26*(1), 113–130. https://doi.org/10.1080/15623599.2025.2508905
 
@@ -319,7 +319,7 @@ Venable, J., Pries-Heje, J., & Baskerville, R. (2016). FEDS: A framework for eva
 
 Venable, J., Pries-Heje, J., & Baskerville, R. (2026). MEDS: Methodology for evaluation in design science. *European Journal of Information Systems.* https://doi.org/10.1080/0960085X.2026.2627280
 
-Xiong, Y., Shao, M., & Ge, X. (2025). Blockchain for data governance in large-scale industrial applications: A systematic review. *Information Systems Frontiers, 27*(2), 451–477. https://doi.org/10.1007/s10796-024-10542-3
+Ibrahimy, M. M., Norta, A., & Normak, P. (2024). Blockchain-based governance models supporting corruption-transparency: A systematic literature review. *Blockchain: Research and Applications, 5*, 100186. https://doi.org/10.1016/j.bcra.2023.100186
 
 Yi, W., Wang, C., Kuzmin, S., Gerasimov, I., & Cheng, X. (2024). Weighted attribute-based proxy re-encryption scheme with distributed multi-authority attributes. *Sensors, 24*(15), 4939. https://doi.org/10.3390/s24154939
 
