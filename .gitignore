@@ -21,6 +21,10 @@ network/channel-artifacts/
 # Large official datasets (public — see veriseti/extracted_real_figures.md for source + figures)
 veriseti/*.xlsx
 
+# Local secrets / env overrides (commit only .env.example)
+.env
+**/.env
+
 # Editor / OS
 .DS_Store
 Thumbs.db

@@ -132,25 +132,25 @@ services:
   couchdb_contractor:
     container_name: couchdb_contractor
     image: couchdb:3.4.2
-    environment: { COUCHDB_USER: admin, COUCHDB_PASSWORD: adminpw }
+    environment: { COUCHDB_USER: "${COUCHDB_USER:-admin}", COUCHDB_PASSWORD: "${COUCHDB_PASSWORD:-adminpw}" }
     ports: ["5984:5984"]
     networks: [safechain]
   couchdb_subcontractor:
     container_name: couchdb_subcontractor
     image: couchdb:3.4.2
-    environment: { COUCHDB_USER: admin, COUCHDB_PASSWORD: adminpw }
+    environment: { COUCHDB_USER: "${COUCHDB_USER:-admin}", COUCHDB_PASSWORD: "${COUCHDB_PASSWORD:-adminpw}" }
     ports: ["6984:5984"]
     networks: [safechain]
   couchdb_insurer:
     container_name: couchdb_insurer
     image: couchdb:3.4.2
-    environment: { COUCHDB_USER: admin, COUCHDB_PASSWORD: adminpw }
+    environment: { COUCHDB_USER: "${COUCHDB_USER:-admin}", COUCHDB_PASSWORD: "${COUCHDB_PASSWORD:-adminpw}" }
     ports: ["7984:5984"]
     networks: [safechain]
   couchdb_auditor:
     container_name: couchdb_auditor
     image: couchdb:3.4.2
-    environment: { COUCHDB_USER: admin, COUCHDB_PASSWORD: adminpw }
+    environment: { COUCHDB_USER: "${COUCHDB_USER:-admin}", COUCHDB_PASSWORD: "${COUCHDB_PASSWORD:-adminpw}" }
     ports: ["8984:5984"]
     networks: [safechain]
 
@@ -181,8 +181,8 @@ services:
       - CORE_CHAINCODE_EXECUTETIMEOUT=300s
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb_contractor:5984
-      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
-      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=adminpw
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=${COUCHDB_USER:-admin}
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=${COUCHDB_PASSWORD:-adminpw}
     volumes:
       - ./organizations/peerOrganizations/contractor.safechain.com/peers/peer0.contractor.safechain.com:/etc/hyperledger/fabric
       - ./peercfg:/etc/hyperledger/peercfg
@@ -220,8 +220,8 @@ services:
       - CORE_CHAINCODE_EXECUTETIMEOUT=300s
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb_subcontractor:5984
-      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
-      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=adminpw
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=${COUCHDB_USER:-admin}
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=${COUCHDB_PASSWORD:-adminpw}
     volumes:
       - ./organizations/peerOrganizations/subcontractor.safechain.com/peers/peer0.subcontractor.safechain.com:/etc/hyperledger/fabric
       - ./peercfg:/etc/hyperledger/peercfg
@@ -259,8 +259,8 @@ services:
       - CORE_CHAINCODE_EXECUTETIMEOUT=300s
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb_insurer:5984
-      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
-      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=adminpw
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=${COUCHDB_USER:-admin}
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=${COUCHDB_PASSWORD:-adminpw}
     volumes:
       - ./organizations/peerOrganizations/insurer.safechain.com/peers/peer0.insurer.safechain.com:/etc/hyperledger/fabric
       - ./peercfg:/etc/hyperledger/peercfg
@@ -298,8 +298,8 @@ services:
       - CORE_CHAINCODE_EXECUTETIMEOUT=300s
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb_auditor:5984
-      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
-      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=adminpw
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=${COUCHDB_USER:-admin}
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=${COUCHDB_PASSWORD:-adminpw}
     volumes:
       - ./organizations/peerOrganizations/auditor.safechain.com/peers/peer0.auditor.safechain.com:/etc/hyperledger/fabric
       - ./peercfg:/etc/hyperledger/peercfg
