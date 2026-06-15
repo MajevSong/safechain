@@ -27,7 +27,7 @@ functional, performance, security, and calibration results.
 | `figures/` | Python scripts that regenerate every figure (F1–F17), including the DI1 calibration/back-test. |
 | `docs/` | Security/KVKK analysis, premium calibration, benchmark results, reviewer responses. |
 | `scripts/` | WSL automation (network up/deploy, benchmarks, fault-tolerance, web app). |
-| `veriseti/` | `extracted_real_figures.md` — real figures extracted from the official SGK 2024 yearbook (source linked; raw `.xlsx` excluded by size). |
+| `dataset/` | Official SGK 2024 yearbook workbooks (`.xlsx`) plus `extracted_real_figures.md` documenting the exact real figures used and their source. |
 | `paper.md` | Manuscript source (the `.docx` is generated via `pandoc`). |
 
 ## Reproduce the core claims

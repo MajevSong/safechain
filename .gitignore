@@ -18,8 +18,8 @@ network/channel-artifacts/
 *.docx
 *.pdf
 
-# Large official datasets (public — see veriseti/extracted_real_figures.md for source + figures)
-veriseti/*.xlsx
+# Journal-submission artefacts (cover letter, highlights, declarations) — not part of the code artefact
+submission_AiC/
 
 # Local secrets / env overrides (commit only .env.example)
 .env

@@ -1,6 +1,6 @@
 # Real official figures extracted from the SGK 2024 Statistical Yearbook
 Source: SGK (2024) Yıllık İstatistikler, Bölüm 3-1 İş Kazası ve Meslek Hastalığı
-İstatistikleri (4-1/a). Files in `veriseti/`.
+İstatistikleri (4-1/a). Raw yearbook workbooks are included in `dataset/` (official SGK `.xlsx` files).
 
 ## Construction sector, 2024 (Table 3.1.1, accidents by NACE)
 - NACE 41 (building construction): 50,429 accidents (27 deaths in-table col)
